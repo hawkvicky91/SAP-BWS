@@ -24,7 +24,8 @@ PROCEDURE "C5243973"."C5243973::PR_PRODUCT_APPLICATION" (
 	READS SQL DATA AS
 
 BEGIN
-/*
+--Docuble Check
+/* 
 	--call core procedure
 	CALL "BASF"."basf.bws.db.intern.nav.proc.product_application_v2::PR_PRODUCT_APPLICATION"(
 		:iv_context_filter,
