@@ -17,7 +17,7 @@ function getProductApplication(input, conn) {
 	
 	var areasubparameter = null;
 	var targetTaxonomyType = null;
-
+ 
 
 	var filterContextNoTarget = null;
 	var path = 'basf.bws.db.pub.nav.proc.product_application'
