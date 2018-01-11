@@ -25,6 +25,7 @@ PROCEDURE "C5243973"."C5243973::PR_PRODUCT_APPLICATION" (
 
 BEGIN
 --Docuble Check
+--Bracc 2 1
 /* 
 	--call core procedure
 	CALL "BASF"."basf.bws.db.intern.nav.proc.product_application_v2::PR_PRODUCT_APPLICATION"(
