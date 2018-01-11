@@ -1,0 +1,130 @@
+PROCEDURE "C5243973"."C5243973::PR_PRODUCT_APPLICATION" (
+    IN iv_context_filter		NVARCHAR(5000),
+	IN iv_parent_filter			NVARCHAR(5000),
+	IN iv_number_nodes			INTEGER,
+	IN iv_context_no_target		NVARCHAR(5000),
+	IN iv_threshold_no_target	INTEGER,
+	IN iv_category_product_id	NVARCHAR(5000),
+	IN iv_product_filter		NVARCHAR(5000),
+    IN iv_product_family_filter NVARCHAR(5000),	
+	IN iv_language_id			NVARCHAR(2),
+	IN iv_page_environment		INTEGER,
+	IN iv_user_id				VARCHAR(80),
+	IN iv_limit					INTEGER,
+	IN iv_offset				INTEGER,
+	IN iv_availability_id		NVARCHAR(255),
+	IN iv_area_subparameter 	NVARCHAR(20),
+	IN iv_target_tax_type		NVARCHAR(255)
+	
+)
+
+	LANGUAGE SQLSCRIPT
+	SQL SECURITY INVOKER
+	DEFAULT SCHEMA C5243973
+	READS SQL DATA AS
+
+BEGIN
+/*
+	--call core procedure
+	CALL "BASF"."basf.bws.db.intern.nav.proc.product_application_v2::PR_PRODUCT_APPLICATION"(
+		:iv_context_filter,
+		:iv_parent_filter,
+		:iv_number_nodes,
+		:iv_context_no_target,
+		:iv_threshold_no_target,
+		:iv_category_product_id,
+		:iv_product_filter,
+		:iv_product_family_filter,
+		:iv_language_id,
+		:iv_page_environment,
+		:iv_user_id,
+		:iv_availability_id,
+		:iv_area_subparameter,
+		:iv_target_tax_type,
+		lt_core_result,
+		ot_narrow_down,
+		ot_parents
+	);
+	
+    --Find Level of target taxonomy and check whether product exist for page
+    lt_prd_tmp = 
+        SELECT
+            core.web_page_id,
+			environment,
+			language_id,
+			page_type,
+			template,
+			name,
+			description,
+			url,
+			core.path,
+			image_identifier,
+			image_url,
+			short_url,
+			content_type,
+			core.type,
+			core.priority,
+			CASE
+			    WHEN ( web_page.product_id IS NULL or web_page.product_id = '')
+			    THEN 'N'
+			    ELSE 'Y'    
+			END as product_exist,
+			CASE
+			    WHEN ( web_page.product_id IS NULL or web_page.product_id = '')
+			    THEN node.level
+			    ELSE core.sort_level    
+			END as level
+			FROM
+			:lt_core_result as core
+			INNER JOIN
+			    "BASF"."basf.bws.db.model::SE_TAXONOMY_SET_WEB_PAGE" as web_page
+			ON
+			    core.web_page_id = web_page.web_page_id
+			INNER JOIN
+			    "BASF"."basf.bws.db.model::SE_TAXONOMY_NODE_TAXONOMY_SET" as node_set
+			ON
+			    web_page.taxonomy_set_id = node_set.taxonomy_set_id
+			INNER JOIN
+			    "BASF"."basf.bws.db.model::SE_TAXONOMY_NODE" as node
+			ON 
+			    node_set.taxonomy_node_id = node.taxonomy_node_id
+			WHERE
+			    node.taxonomy_type_id = :iv_target_tax_type;
+			   
+	--order the result and return valid entries only
+	ot_prd = 
+		SELECT
+			web_page_id,
+			environment,
+			language_id,
+			page_type,
+			template,
+			name,
+			description,
+			url,
+			path,
+			image_identifier,
+			image_url,
+			short_url,
+			content_type,
+			type,
+			priority
+		FROM
+			:lt_prd_tmp
+		ORDER BY
+		    product_exist DESC,
+		    level ASC,
+			UPPER(name) ASC
+		LIMIT
+			:iv_limit
+		OFFSET 
+			:iv_offset;
+
+	-- get the total amount of results for paging purposes	
+	ot_result_size = 
+		SELECT 
+			COUNT(*) AS result_size
+		FROM
+			:lt_core_result;
+*/
+END;
